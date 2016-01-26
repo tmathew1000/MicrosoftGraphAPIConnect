@@ -1,0 +1,108 @@
+﻿<!-- Copyright (c) Microsoft. All rights reserved. Licensed under the MIT license. See full license at the bottom of this file. -->
+
+@{
+    GraphApiConnect.Models.EventInfo eventInfo = ViewBag.EventInfo;
+    GraphApiConnect.Models.CreateEventResponse createEventResponse = ViewBag.createEventResponse;
+}
+
+<h2>Create Events</h2>
+<br />
+
+<form>
+    <p>
+    <p>
+        You're now connected to Office 365!  Click <b>Create Event</b> to add a new Event from your Office 365 account using unified API.
+    </p>
+    <p>
+    <b>Start Time:</b> @Html.EditorFor(m => eventInfo.StartTime, new { Value = System.DateTime.Now.ToString(), htmlAttributes = new { style = "Width:350px" } })
+    </p>
+    <br />
+    <p>
+    <b>End Time:</b> @Html.EditorFor(m => eventInfo.EndTime, new { Value = System.DateTime.Now.AddHours(1).ToString(), htmlAttributes = new { style = "Width:350px" } })
+    </p>
+    <br/>
+    <p>
+     <b>Time Zone:</b> @Html.EditorFor(m => eventInfo.TimeZone, new { Value = "Cental Standard Time", htmlAttributes = new { style = "Width:350px" } })
+    </p>
+    <br />
+    <p>
+    <b>Subject:</b> @Html.EditorFor(m => eventInfo.Subject, new { Value = "Test Meeting", htmlAttributes = new { style = "Width:400px" } })
+    </p>
+    <br />
+    <p>
+    <b>Body:</b> @Html.EditorFor(m => eventInfo.Body, new { Value = "Hope to talk to you in this meeting.", htmlAttributes = new { style = "Width:400px" } })
+    </p>
+    <br />
+    <p>
+        <button formaction="@Url.Content("~/Calendar/CreateEventSubmit")">Create Event</button>
+    </p>
+
+</form>
+
+<br />
+
+<p>
+    @{  if (createEventResponse.Status == GraphApiConnect.Models.CreateEventStatusEnum.Created)
+        {
+        <p>Successfully created a new event start at @eventInfo.StartTime and ending at @eventInfo.EndTime with Subject @eventInfo.Subject!</p>
+        }
+        else if (createEventResponse.Status == GraphApiConnect.Models.CreateEventStatusEnum.Failed)
+        {
+            <p>Your Event was NOT created</p>
+            <p>@createEventResponse.StatusMessage</p>
+        }
+    }
+    </p>
+    <body>
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    @Html.ActionLink("Office 365 Connect Sample", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                </div>
+                <div class="navbar-collapse collapse">
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="@Url.Action("Logout", "Home", null, Request.Url.Scheme)"><i class="ms-Icon ms-Icon--x"></i><b>x</b> Disconnect</li>
+                    </ul>
+
+
+                </div>
+            </div>
+        </div>
+
+        <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+        <script src="~/Scripts/bootstrap.min.js"></script>
+    </body>
+    </html>
+
+    <!--
+    O365-ASPNETMVC-Unified-API-Connect, https://github.com/OfficeDev/
+    Copyright (c) Microsoft Corporation
+    All rights reserved.
+
+    MIT License:
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    "Software"), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be
+    included in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+    EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+    NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+    LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+    OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+    WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+    -->
